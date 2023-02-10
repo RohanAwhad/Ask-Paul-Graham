@@ -1,7 +1,9 @@
 import json
-from db import DB, Article, Chunk
 
+from loguru import logger
 from nltk.tokenize import sent_tokenize
+
+from db import DB, Article, Chunk
 
 # Chunking text
 def get_chunks(text, max_len_chars = 1800):
@@ -17,6 +19,7 @@ def get_chunks(text, max_len_chars = 1800):
             curr_size = 0
             
     if curr_size: chunks[-1] = ' '.join(chunks[-1])
+    logger.info(f'Created {len(chunks)} chunks')
     return chunks
 
 def loader():
@@ -25,7 +28,9 @@ def loader():
         data = json.load(f)
 
     for uid, value in data.items():
+        logger.info(f'Processing {uid}')
         text = value['text'].replace('"', "'")
+        chunks = get_chunks(text)
 
         with DB:
             article, _ = Article.get_or_create(
@@ -35,9 +40,9 @@ def loader():
                 title=value['title']
             )
 
-        chunks = get_chunks(value['text'])
-        for chunk in chunks:
-            with DB: Chunk.get_or_create(article=article, chunk=chunk)
+            for chunk in chunks: Chunk.get_or_create(article=article, chunk=chunk)
+
+        logger.info(f'loaded {uid}')
 
 if __name__ == '__main__':
     loader()
