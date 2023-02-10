@@ -15,13 +15,13 @@ class Article(BaseModel):
     content = TextField()
     url = CharField()
 
-class Chunks(BaseModel):
-    id = PrimaryKeyField()
+class Chunk(BaseModel):
+    id = AutoField(primary_key=True)
     article = ForeignKeyField(Article, backref='chunks')
-    chunk = TextField()
+    chunk = TextField(unique=True)
 
 
 if __name__ == '__main__':
     with DB:
-        DB.create_tables([Article, Chunks])
+        DB.create_tables([Article, Chunk])
         
