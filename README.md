@@ -20,8 +20,11 @@ There are multiple steps in retrieving.
 [x] Scrape essays from paulgraham.com
 [ ] Filter to not req page that is already in the db
 [ ] Save them in a DB
-[ ] Transform text into a vector space
-[ ] Save the vector space in a Faiss index
-[ ] Build a retriever to take a question and return the top 5 essays
-[ ] Build a model to answer the question in an abstractive fashion based on the retrieved essays
-[ ] Build a web app to take a question and return the answer
+[x] Transform text into a vector space
+[x] Save the vector space in a Faiss index
+[x] Build a retriever to take a question and return the top 5 essays
+[x] Build a model to answer the question in an abstractive fashion based on the retrieved essays
+[x] Build a web app to take a question and return the answer
+[ ] Persist the chunks on disk
+[ ] Persist the index on disk
+[ ] Based on the distances between the question and chunks retrieved, eliminate chunks that are too far away and return an answer: "I don't know about that"
