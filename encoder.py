@@ -1,4 +1,5 @@
 import faiss
+import numpy as np
 import time
 import torch
 
@@ -43,7 +44,7 @@ def encode(text: Union[str, list[str]]) -> torch.Tensor:
     if isinstance(text, str): return _encode(text)
     else: return _encode_batch(text)
 
-def build_index(chunk_embeddings: torch.Tensor):
+def build_index(chunk_embeddings: np.ndarray):
     """Index embeddings using Faiss.
 
     Args:
@@ -52,7 +53,7 @@ def build_index(chunk_embeddings: torch.Tensor):
     Returns:
         index (faiss.IndexFlatIP): Index of embeddings.
     """
-    dim_size = chunk_embeddings.size(1)
+    dim_size = chunk_embeddings.shape[1]
     index = faiss.IndexFlatIP(dim_size)  # build the index
-    index.add(chunk_embeddings.numpy())  # add vectors to the index
+    index.add(chunk_embeddings)  # add vectors to the index
     return index
