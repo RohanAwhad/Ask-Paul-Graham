@@ -38,7 +38,3 @@ for article in all_articles:
 with open('data/raw.json', 'w') as f:
     json.dump(data, f)
 logger.info('Data saved to data/raw.json')
-
-# create a dataframe
-df = pd.DataFrame.from_dict(data, orient='index')
-print(df.head())
